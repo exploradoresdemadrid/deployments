@@ -1,0 +1,42 @@
+version: '3'
+services:
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/opt/lib/postgresql/data
+  web:
+    image: exploradoresdemadrid/decide:master
+    environment:
+      RAILS_ENV: production
+      RACK_ENV: production
+      RAILS_SERVE_STATIC_FILES: "true"
+      DEVISE_JWT_SECRET_KEY: ${DEVISE_JWT_SECRET_KEY}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      POSTGRES_HOST: db
+    command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - migration
+    volumes:
+      - ./log:/app/log
+  migration:
+    image: exploradoresdemadrid/decide:master
+    environment:
+      RAILS_ENV: production
+      RACK_ENV: production
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      POSTGRES_HOST: db
+    command: "bundle exec rake db:create db:migrate"
+    depends_on:
+      - db
+volumes:
+  pgdata:
