@@ -8,14 +8,18 @@ services:
     volumes:
       - pgdata:/opt/lib/postgresql/data
   nginx:
-    image: nginx:latest
-    container_name: production_nginx
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - /etc/letsencrypt/:/etc/letsencrypt/
+    restart: unless-stopped
+    image: staticfloat/nginx-certbot
     ports:
-      - 80:80
-      - 443:443
+      - 80:80/tcp
+      - 443:443/tcp
+    environment:
+      CERTBOT_EMAIL: tecnologia@exploradoresdemadrid.org
+      ENVSUBST_VARS: FQDN
+      FQDN: tecnologia.exploradoresdemadrid.org
+    volumes:
+      - ./conf.d:/etc/nginx/user.conf.d:ro
+      - letsencrypt:/etc/letsencrypt
     depends_on:
       - web
   web:
@@ -51,3 +55,4 @@ services:
       - db
 volumes:
   pgdata:
+  letsencrypt:
