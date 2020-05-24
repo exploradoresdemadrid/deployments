@@ -22,6 +22,7 @@ services:
       - letsencrypt:/etc/letsencrypt
     depends_on:
       - web
+      - salamandra
   web:
     image: exploradoresdemadrid/decide:beta
     environment:
@@ -41,15 +42,6 @@ services:
       - migration
     volumes:
       - ./log:/app/log
-  salamandra:
-    image: exploradoresdemadrid/salamandra:beta
-    ports:
-      - "8080:80"
-    depends_on:
-      - db
-    volumes:
-      - ./log:/app/salamandra/log
-      - ../secrets/salamandra/production/settings.php:/var/www/html/sites/default/settings.php
   migration:
     image: exploradoresdemadrid/decide:beta
     environment:
@@ -62,6 +54,22 @@ services:
     command: "bundle exec rake db:create db:migrate"
     depends_on:
       - db
+  salamandra:
+    image: exploradoresdemadrid/salamandra:beta
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    volumes:
+      - ./log:/app/salamandra/log
+      - ../secrets/salamandra/production/settings.php:/var/www/html/sites/default/settings.php
+  drush:
+    image: drush/drush:8
+    depends_on:
+      - salamandra
+    volumes:
+      - .:/var/www/html
+    command: "drush cache-clear"
 volumes:
   pgdata:
   letsencrypt:
