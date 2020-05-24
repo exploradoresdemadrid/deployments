@@ -41,6 +41,14 @@ services:
       - migration
     volumes:
       - ./log:/app/log
+  salamandra:
+    image: exploradoresdemadrid/salamandra:master
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    volumes:
+      - ./log:/app/salamandra/log
   migration:
     image: exploradoresdemadrid/decide:master
     environment:
