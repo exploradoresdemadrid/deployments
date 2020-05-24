@@ -16,7 +16,7 @@ services:
     environment:
       CERTBOT_EMAIL: tecnologia@exploradoresdemadrid.org
       ENVSUBST_VARS: FQDN
-      FQDN: tecnologia.exploradoresdemadrid.org
+      FQDN: "*.exploradoresdemadrid.org"
     volumes:
       - ./conf.d:/etc/nginx/user.conf.d:ro
       - letsencrypt:/etc/letsencrypt
