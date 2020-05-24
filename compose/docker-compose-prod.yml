@@ -69,7 +69,7 @@ services:
       - salamandra
     volumes:
       - .:/var/www/html
-    command: "cache-clear"
+    command: "cache-clear drupal"
 volumes:
   pgdata:
   letsencrypt:
