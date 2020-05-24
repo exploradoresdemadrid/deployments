@@ -63,13 +63,6 @@ services:
     volumes:
       - ./log:/app/salamandra/log
       - ../secrets/salamandra/production/settings.php:/var/www/html/sites/default/settings.php
-  drush:
-    image: drush/drush:8
-    depends_on:
-      - salamandra
-    volumes:
-      - .:/var/www/html
-    command: "cache-clear drupal"
 volumes:
   pgdata:
   letsencrypt:
