@@ -23,7 +23,7 @@ services:
     depends_on:
       - web
   web:
-    image: exploradoresdemadrid/decide:master
+    image: exploradoresdemadrid/decide:beta
     environment:
       RAILS_ENV: production
       RACK_ENV: production
@@ -42,7 +42,7 @@ services:
     volumes:
       - ./log:/app/log
   salamandra:
-    image: exploradoresdemadrid/salamandra:master
+    image: exploradoresdemadrid/salamandra:beta
     ports:
       - "8080:80"
     depends_on:
@@ -50,7 +50,7 @@ services:
     volumes:
       - ./log:/app/salamandra/log
   migration:
-    image: exploradoresdemadrid/decide:master
+    image: exploradoresdemadrid/decide:beta
     environment:
       RAILS_ENV: production
       RACK_ENV: production
