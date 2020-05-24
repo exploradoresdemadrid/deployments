@@ -49,6 +49,7 @@ services:
       - db
     volumes:
       - ./log:/app/salamandra/log
+      - ../secrets/salamandra/production/settings.php:/var/www/html/sites/default/settings.php
   migration:
     image: exploradoresdemadrid/decide:beta
     environment:
