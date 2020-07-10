@@ -55,7 +55,7 @@ services:
     depends_on:
       - db
   salamandra:
-    image: drupal/8.9.2-apache-alpine
+    image: drupal:8.9.2-apache
     ports:
       - "8080:80"
     depends_on:
