@@ -55,14 +55,16 @@ services:
     depends_on:
       - db
   salamandra:
-    image: exploradoresdemadrid/salamandra:beta
+    image: drupal/8.9.2-apache-alpine
     ports:
       - "8080:80"
     depends_on:
       - db
     volumes:
-      - ./log:/app/salamandra/log
-      - ../secrets/salamandra/production/settings.php:/var/www/html/sites/default/settings.php
+      - /var/www/html/modules
+      - /var/www/html/profiles
+      - /var/www/html/themes
+      - /var/www/html/sites
 volumes:
   pgdata:
   letsencrypt:
