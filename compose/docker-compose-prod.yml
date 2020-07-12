@@ -56,15 +56,19 @@ services:
       - db
   salamandra:
     image: drupal:8.9.2-apache
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "8080:80"
     depends_on:
       - db
     volumes:
-      - /var/www/html/modules
-      - /var/www/html/profiles
-      - /var/www/html/themes
-      - /var/www/html/sites
+      - /home/ubuntu/salamandra/modules:/var/www/html/modules
+      - /home/ubuntu/salamandra/profiles:/var/www/html/profiles
+      - /home/ubuntu/salamandra/themes:/var/www/html/themes
+      - /home/ubuntu/salamandra/sites:/var/www/html/sites
+      - /home/ubuntu/salamandra/private_files:/var/www/salamandra_private
 volumes:
   pgdata:
   letsencrypt:
