@@ -55,7 +55,7 @@ services:
     depends_on:
       - db
   salamandra:
-    image: drupal:8.9.2-apache
+    image: exploradoresdemadrid/salamandra:beta
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
