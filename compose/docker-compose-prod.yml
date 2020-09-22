@@ -24,7 +24,7 @@ services:
       - web
       - salamandra
   web:
-    image: exploradoresdemadrid/decide:beta
+    image: exploradoresdemadrid/decide:master
     environment:
       RAILS_ENV: production
       RACK_ENV: production
