@@ -8,7 +8,7 @@ services:
     volumes:
       - pgdata:/opt/lib/postgresql/data
   decide_redis:
-    image: redis:6
+    image: redis:6-alpine
   nginx:
     restart: unless-stopped
     image: staticfloat/nginx-certbot
