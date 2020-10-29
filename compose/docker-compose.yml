@@ -7,6 +7,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - pgdata:/opt/lib/postgresql/data
+  decide_redis:
+    image: redis:6
   nginx:
     restart: unless-stopped
     image: staticfloat/nginx-certbot
@@ -39,6 +41,7 @@ services:
       - "3000"
     depends_on:
       - db
+      - redis
       - migration
     volumes:
       - ./log:/app/log
@@ -66,6 +69,7 @@ services:
     command: "bundle exec sidekiq"
     depends_on:
       - db
+      - redis
   salamandra:
     image: exploradoresdemadrid/salamandra:beta
     environment:
