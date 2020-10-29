@@ -72,6 +72,10 @@ services:
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
       POSTGRES_HOST: db
       REDIS_URL: redis://decide_redis:6379/0
+      DECIDE_SMTP_USERNAME: ${DECIDE_SMTP_USERNAME}
+      DECIDE_SMTP_PASSWORD: ${DECIDE_SMTP_PASSWORD}
+      DECIDE_SMTP_ADDRESS: ${DECIDE_SMTP_ADDRESS}
+      DECIDE_HOST: ${DECIDE_HOST}
     command: "bundle exec sidekiq"
     depends_on:
       - db
