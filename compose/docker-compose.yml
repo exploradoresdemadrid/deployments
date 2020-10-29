@@ -54,6 +54,18 @@ services:
     command: "bundle exec rake db:create db:migrate"
     depends_on:
       - db
+  workers:
+    image: exploradoresdemadrid/decide:master
+    environment:
+      RAILS_ENV: production
+      RACK_ENV: production
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      POSTGRES_HOST: db
+    command: "bundle exec sidekiq"
+    depends_on:
+      - db
   salamandra:
     image: exploradoresdemadrid/salamandra:beta
     environment:
