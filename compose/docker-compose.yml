@@ -56,7 +56,7 @@ services:
       - decide_redis
       - migration
     volumes:
-      - ./log:/app/log
+      - logs:/decide/log
   migration:
     image: exploradoresdemadrid/decide:master
     environment:
@@ -106,7 +106,7 @@ services:
       - decide_redis
       - sorting-hat-migration
     volumes:
-      - ./log:/app/log
+      - logs:/sorting-hat/log
   sorting-hat-migration:
     image: exploradoresdemadrid/sorting_hat:master
     environment:
@@ -152,3 +152,4 @@ volumes:
   pgdata:
   letsencrypt:
   redis-data:
+  logs:
