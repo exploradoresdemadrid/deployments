@@ -6,7 +6,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - pgdata:/opt/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
   decide_redis:
     image: redis:6-alpine
     command: ["redis-server", "--appendonly", "yes"]
