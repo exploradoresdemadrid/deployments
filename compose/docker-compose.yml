@@ -1,6 +1,7 @@
 version: '3'
 services:
   db:
+    restart: unless-stopped
     image: postgres:12.4-alpine
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -8,6 +9,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
   decide_redis:
+    restart: unless-stopped
     image: redis:6-alpine
     command: ["redis-server", "--appendonly", "yes"]
     hostname: redis
@@ -30,6 +32,7 @@ services:
       - web
       - salamandra
   web:
+    restart: unless-stopped
     image: exploradoresdemadrid/decide:master
     environment:
       RAILS_ENV: production
@@ -70,6 +73,7 @@ services:
     depends_on:
       - db
   workers:
+    restart: unless-stopped
     image: exploradoresdemadrid/decide:master
     environment:
       RAILS_ENV: production
@@ -88,6 +92,7 @@ services:
       - db
       - decide_redis
   sorting-hat-web:
+    restart: unless-stopped
     image: exploradoresdemadrid/sorting_hat:master
     environment:
       RAILS_ENV: production
@@ -120,6 +125,7 @@ services:
     depends_on:
       - db
   sorting-hat-workers:
+    restart: unless-stopped
     image: exploradoresdemadrid/sorting_hat:master
     environment:
       RAILS_ENV: production
@@ -134,6 +140,7 @@ services:
       - db
       - decide_redis
   salamandra:
+    restart: unless-stopped
     image: exploradoresdemadrid/salamandra:master
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
