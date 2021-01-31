@@ -5,17 +5,9 @@ FILENAME=testfile.tar.gz
 FILEPATH=/home/ubuntu/
 
 
-
-
-
-
-
-
-
-
 ## Get new access token with refresh token
-GDRIVE_ACCESS_TOKEN=""
-GDRIVE_ACCESS_TOKEN=$(curl --silent -d \
+GCLOUD_ACCESS_TOKEN=""
+GCLOUD_ACCESS_TOKEN=$(curl --silent -d \
 client_id=$GCLOUD_CLIENT_ID \
 -d client_secret=$GCLOUD_SECRET \
 -d refresh_token=$GCLOUD_REFRESH_TOKEN \
