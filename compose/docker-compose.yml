@@ -94,6 +94,12 @@ services:
   sorting-hat-web:
     restart: unless-stopped
     image: exploradoresdemadrid/sorting_hat:master
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     environment:
       RAILS_ENV: production
       RACK_ENV: production
