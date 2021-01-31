@@ -2,17 +2,17 @@
 
 DECIDE_PROD_NAME=decide_production_`date +%Y-%m-%d"_"%H_%M_%S`
 SORTING_HAT_PRODUCTION=sorting-hat_production_`date +%Y-%m-%d"_"%H_%M_%S`
+BACKUPS_DIR=/home/ubuntu/backups
 
 docker exec -t compose_db_1 pg_dumpall -c -U decide_prod -l decide_production \
-> ~/backups/$DECIDE_PROD_NAME.sql
+> $BACKUPS_DIR/$DECIDE_PROD_NAME.sql
 
-tar -czvf ~/backups/$DECIDE_PROD_NAME.tar.gz ~/backups/$DECIDE_PROD_NAME.sql
+tar -czvf $BACKUPS_DIR/$DECIDE_PROD_NAME.tar.gz $BACKUPS_DIR/$DECIDE_PROD_NAME.sql
 
 docker exec -t compose_db_1 pg_dumpall -c -U hat_production -l decide_production \
-> ~/backups/$SORTING_HAT_PRODUCTION.sql
+> $BACKUPS_DIR/$SORTING_HAT_PRODUCTION.sql
 
-tar -czvf ~/backups/$SORTING_HAT_PRODUCTION.tar.gz ~/backups/$SORTING_HAT_PRODUCTION.sql
-
+tar -czvf $BACKUPS_DIR/$SORTING_HAT_PRODUCTION.tar.gz $BACKUPS_DIR/$SORTING_HAT_PRODUCTION.sql
 
 ## Get new access token with refresh token
 GCLOUD_ACCESS_TOKEN=""
@@ -29,7 +29,7 @@ curl \
 -X POST -L \
 -H "Authorization: Bearer $GCLOUD_ACCESS_TOKEN" \
 -F "metadata={name :'$DECIDE_PROD_NAME.tar.gz', parents :['$GCLOUD_FOLDER_ID']};type=application/json;charset=UTF-8" \
--F "file=@/home/ubuntu/backups/$DECIDE_PROD_NAME.tar.gz;type=application/gzip" \
+-F "file=@$BACKUPS_DIR/$DECIDE_PROD_NAME.tar.gz;type=application/gzip" \
 "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
 
 
@@ -37,9 +37,13 @@ curl \
 -X POST -L \
 -H "Authorization: Bearer $GCLOUD_ACCESS_TOKEN" \
 -F "metadata={name :'$SORTING_HAT_PRODUCTION.tar.gz', parents :['$GCLOUD_FOLDER_ID']};type=application/json;charset=UTF-8" \
--F "file=@/home/ubuntu/backups/$SORTING_HAT_PRODUCTION.tar.gz;type=application/gzip" \
+-F "file=@$BACKUPS_DIR/$SORTING_HAT_PRODUCTION.tar.gz;type=application/gzip" \
 "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
 
+
+## Cleanup after backups
+rm -v $BACKUPS_DIR/*.tar.gz
+rm -v $BACKUPS_DIR/*.sql
 
 ## Notify Slack bot that backup was completed
 curl -X POST -H 'Content-type: application/json' --data '{"text":"Backups uploaded!"}' \
