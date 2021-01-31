@@ -62,6 +62,11 @@ services:
       - logs:/decide/log
   migration:
     image: exploradoresdemadrid/decide:master
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
     environment:
       RAILS_ENV: production
       RACK_ENV: production
