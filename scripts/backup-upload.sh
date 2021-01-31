@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+## source environmient variables
+source /home/ubuntu/deployments/secrets/prod-secrets.sh
+
 DECIDE_PROD_NAME=decide_production_`date +%Y-%m-%d"_"%H_%M_%S`
 SORTING_HAT_PRODUCTION=sorting-hat_production_`date +%Y-%m-%d"_"%H_%M_%S`
 BACKUPS_DIR=/home/ubuntu/backups
