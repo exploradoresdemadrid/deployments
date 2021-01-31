@@ -40,6 +40,12 @@ services:
   web:
     restart: unless-stopped
     image: exploradoresdemadrid/decide:master
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     environment:
       RAILS_ENV: production
       RACK_ENV: production
