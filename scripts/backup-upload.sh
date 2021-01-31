@@ -39,3 +39,8 @@ curl \
 -F "metadata={name :'$SORTING_HAT_PRODUCTION.tar.gz', parents :['$GCLOUD_FOLDER_ID']};type=application/json;charset=UTF-8" \
 -F "file=@/home/ubuntu/backups/$SORTING_HAT_PRODUCTION.tar.gz;type=application/gzip" \
 "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
+
+
+## Notify Slack bot that backup was completed
+curl -X POST -H 'Content-type: application/json' --data '{"text":"Backups uploaded!"}' \
+$BACKUP_SLACK_WEBHOOK_URL
