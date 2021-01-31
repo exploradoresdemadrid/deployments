@@ -22,7 +22,7 @@ https://accounts.google.com/o/oauth2/token | jq '.access_token')
 
 for database in ${databases[@]}; do
     # Backup name with db name + timestamp
-    local backup_name=$database-`date +%Y-%m-%d"_"%H_%M_%S`
+    backup_name=$database-`date +%Y-%m-%d"_"%H_%M_%S`
 
     # Docker execution of postgres backup
     docker exec -t\
