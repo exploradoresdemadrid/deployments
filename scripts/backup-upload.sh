@@ -4,6 +4,19 @@
 FILENAME=testfile.tar.gz
 FILEPATH=/home/ubuntu/
 
+DECIDE_PROD_NAME=decide_production_`date +%Y-%m-%d"_"%H_%M_%S`
+SORTING_HAT_PRODUCTION=sorting-hat_production`date +%Y-%m-%d"_"%H_%M_%S`
+
+docker exec -t compose_db_1 pg_dumpall -c -U decide_prod -l decide_production \
+> ~/backups/$DECIDE_PROD_NAME.sql
+
+tar -czvf ~/backups/$DECIDE_PROD_NAME.tar.gz ~/backups/$DECIDE_PROD_NAME.sql
+
+docker exec -t compose_db_1 pg_dumpall -c -U hat_production -l decide_production \
+> ~/backups/$SORTING_HAT_PRODUCTION.sql
+
+tar -czvf ~/backups/$SORTING_HAT_PRODUCTION.tar.gz ~/backups/$SORTING_HAT_PRODUCTION.sql
+
 
 ## Get new access token with refresh token
 GCLOUD_ACCESS_TOKEN=""
@@ -19,7 +32,14 @@ https://accounts.google.com/o/oauth2/token | jq '.access_token')
 curl \
 -X POST -L \
 -H "Authorization: Bearer $GCLOUD_ACCESS_TOKEN" \
--F "metadata={name :'$FILENAME', parents :['$GCLOUD_FOLDER_ID']};type=application/json;charset=UTF-8" \
--F "file=@$FILEPATH/$FILENAME;type=application/gzip" \
+-F "metadata={name :'$DECIDE_PROD_NAME.tar.gz', parents :['$GCLOUD_FOLDER_ID']};type=application/json;charset=UTF-8" \
+-F "file=@~/backups/$DECIDE_PROD_NAME.tar.gz;type=application/gzip" \
 "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
 
+
+curl \
+-X POST -L \
+-H "Authorization: Bearer $GCLOUD_ACCESS_TOKEN" \
+-F "metadata={name :'$SORTING_HAT_PRODUCTION.tar.gz', parents :['$GCLOUD_FOLDER_ID']};type=application/json;charset=UTF-8" \
+-F "file=@~/backups/$SORTING_HAT_PRODUCTION.tar.gz;type=application/gzip" \
+"https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
