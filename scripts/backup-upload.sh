@@ -18,7 +18,8 @@ client_id=$GCLOUD_CLIENT_ID \
 -d grant_type=refresh_token \
 https://accounts.google.com/o/oauth2/token | jq '.access_token')
 
-
+## Change directory to backups dir
+cd $BACKUPS_DIR
 
 for database in ${databases[@]}; do
     # Backup name with db name + timestamp
@@ -26,23 +27,28 @@ for database in ${databases[@]}; do
 
     # Docker execution of postgres backup
     docker exec -t \
-    compose_db_1 pg_dump -c -U decide_prod -d $database > $BACKUPS_DIR/$backup_name.sql
+    compose_db_1 pg_dump -c -U decide_prod -d $database > $backup_name.sql
     
     # Compresion of db backup  
-    tar -czvf $BACKUPS_DIR/$backup_name.tar.gz $BACKUPS_DIR/$backup_name.sql
+    tar -czvf $BACKUPS_DIR/$backup_name.tar.gz $backup_name.sql
     
     # Upload of compressed backup to gdrive with token
     curl \
     -X POST -L \
     -H "Authorization: Bearer $GCLOUD_ACCESS_TOKEN" \
     -F "metadata={name :'$backup_name.tar.gz', parents :['$GCLOUD_FOLDER_ID']};type=application/json;charset=UTF-8" \
-    -F "file=@$BACKUPS_DIR/$backup_name.tar.gz;type=application/gzip" \
+    -F "file=@$backup_name.tar.gz;type=application/gzip" \
     "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
 done
 
+
+
 ## Cleanup after backups
-rm -v $BACKUPS_DIR/*.tar.gz
-rm -v $BACKUPS_DIR/*.sql
+rm -v ./*.tar.gz
+rm -v ./*.sql
+
+## Return to previous directory
+cd -
 
 ## Notify Slack bot that backup was completed
 curl -X POST -H 'Content-type: application/json' --data '{"text":"Backups uploaded!"}' \
