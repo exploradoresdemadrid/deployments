@@ -1,0 +1,14 @@
+on:
+  issues:
+    types: [opened]
+jobs:
+  titlePrefixCheck:
+    runs-on: ubuntu-latest
+    steps:
+      - if: github.event.issue.title == 'Someone needs to deploy the website'
+        name: Close issue
+        uses: peter-evans/close-issue@v1
+        with:
+          comment: |
+            The deployment process has been triggered. The website will be updated automatically.
+            Closing the issue.
