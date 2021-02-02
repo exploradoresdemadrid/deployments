@@ -25,9 +25,8 @@ for database in ${databases[@]}; do
     backup_name=$database-`date +%Y-%m-%d"_"%H_%M_%S`
 
     # Docker execution of postgres backup
-    docker exec -t\
-    compose_db_1 pg_dumpall -c -U decide_prod -l $database > $BACKUPS_DIR/$backup_name.sql
-
+    compose_db_1 pg_dump -c -U decide_prod -d $database > $BACKUPS_DIR/$backup_name.sql
+    
     # Compresion of db backup  
     tar -czvf $BACKUPS_DIR/$backup_name.tar.gz $BACKUPS_DIR/$backup_name.sql
     
