@@ -3,6 +3,6 @@
 cd ..
 source secrets/prod-secrets.sh
 
-docker-compose -f compose/docker-compose-2.yml pull && docker-compose -f compose/docker-compose-2.yml up -d
+docker-compose -f compose/server-2/docker-compose.yml pull && docker-compose -f compose/server-2/docker-compose.yml up -d
 
 docker image prune -af
