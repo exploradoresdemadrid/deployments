@@ -27,7 +27,7 @@ services:
       - db:/var/lib/mysql
 
   docker-web:
-    image: exploradoresdemadrid/docker-web
+    image: exploradoresdemadrid/docker-web:master
     restart: always
 
 volumes:
