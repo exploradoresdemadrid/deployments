@@ -7,7 +7,7 @@ DECIDE_PROD_NAME=decide_production_`date +%Y-%m-%d"_"%H_%M_%S`
 SORTING_HAT_PRODUCTION=sorting-hat_production_`date +%Y-%m-%d"_"%H_%M_%S`
 BACKUPS_DIR=/home/ubuntu/backups
 
-declare -a databases=(decide_production sorting-hat_production)
+declare -a databases=(decide_production sorting-hat_production salamandra_prod)
 
 ## Get new access token with refresh token
 GCLOUD_ACCESS_TOKEN=""
