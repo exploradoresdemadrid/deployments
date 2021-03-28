@@ -3,6 +3,9 @@
 cd ..
 source secrets/prod-secrets.sh
 
+# Start local DNS server
+sudo systemctl start systemd-resolved
+
 # Download docker images
 docker-compose -f compose/docker-compose.yml pull
 
