@@ -4,6 +4,7 @@ cd ..
 source secrets/prod-secrets.sh
 
 # Start local DNS server
+docker stop compose_bind_1
 sudo systemctl start systemd-resolved
 
 # Download docker images
