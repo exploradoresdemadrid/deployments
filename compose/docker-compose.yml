@@ -1,5 +1,16 @@
 version: '3.4'
 services:
+  bind:
+    restart: unless-stopped
+    image: sameersbn/bind:9.16.1-20200524
+    environment:
+      ROOT_PASSWORD: ${WEBMIN_ROOT_PASSWORD}
+    ports:
+    - "53:53/udp"
+    - "53:53/tcp"
+    - "10000:10000/tcp"
+    volumes:
+    - /srv/docker/bind:/data
   db:
     restart: unless-stopped
     image: postgres:12.4-alpine
