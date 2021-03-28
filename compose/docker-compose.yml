@@ -37,6 +37,7 @@ services:
       - web
       - sorting-hat-web
       - salamandra
+      - www
   web:
     restart: unless-stopped
     image: exploradoresdemadrid/decide:master
@@ -72,6 +73,17 @@ services:
       - migration
     volumes:
       - logs:/decide/log
+  www:
+    restart: unless-stopped
+    image: exploradoresdemadrid/docker-web:master
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    expose:
+      - "80"
   migration:
     image: exploradoresdemadrid/decide:master
     environment:
