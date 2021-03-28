@@ -50,6 +50,7 @@ services:
       - sorting-hat-web
       - salamandra
       - www
+      - bind
   web:
     restart: unless-stopped
     image: exploradoresdemadrid/decide:master
