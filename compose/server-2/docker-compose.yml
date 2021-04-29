@@ -1,41 +1,14 @@
 version: '3.1'
 
 services:
-  wordpress:
-    image: wordpress:5.5.3
-    restart: always
-    ports:
-      - 8080:80
-    environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: exampleuser
-      WORDPRESS_DB_PASSWORD: examplepass
-      WORDPRESS_DB_NAME: exampledb
-    volumes:
-      - wordpress:/var/www/html
-  db:
-    image: mysql:5.7
-    restart: always
-    environment:
-      MYSQL_DATABASE: exampledb
-      MYSQL_USER: exampleuser
-      MYSQL_PASSWORD: examplepass
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'
-    volumes:
-      - db:/var/lib/mysql
-  docker-web:
-    image: exploradoresdemadrid/docker-web:master
-    restart: always
-    expose:
-      - "80"
   nginx:
-    restart: unless-stopped
+    restart: always
     image: staticfloat/nginx-certbot
     ports:
       - 80:80/tcp
       - 443:443/tcp
     environment:
-      CERTBOT_EMAIL: tecnologia@exploradoresdemadrid.org
+      CERTBOT_EMAIL: mayn13@gmail.com
       ENVSUBST_VARS: FQDN
       FQDN: "*.exploradoresdemadrid.org"
     volumes:
@@ -43,8 +16,30 @@ services:
       - letsencrypt:/etc/letsencrypt
     depends_on:
       - wordpress
-      - docker-web
+  wordpress:
+    image: wordpress:5.7.1
+    restart: always
+    expose:
+      - "80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+    volumes:
+      - wordpress:/var/www/html
 
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${WORDPRESS_DB_NAME}
+      MYSQL_USER: ${WORDPRESS_DB_USER}
+      MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
 volumes:
   wordpress:
   db:
+  letsencrypt:
