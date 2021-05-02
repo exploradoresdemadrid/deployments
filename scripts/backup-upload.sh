@@ -33,13 +33,15 @@ for database in ${databases[@]}; do
     tar -czvf $BACKUPS_DIR/$backup_name.tar.gz $backup_name.sql
 done
 
+## Remove raw SQL backups
+rm -v ./*.sql
+
 ## Configure file backup with rclone
 rclone copy --immutable /home/ubuntu/salamandra/private_files tecnologia_edm:salamandra/private_files
 rclone copy --immutable $BACKUPS_DIR tecnologia_edm:databases
 
 ## Cleanup after backups
 rm -v ./*.tar.gz
-rm -v ./*.sql
 
 ## Return to previous directory
 cd -
