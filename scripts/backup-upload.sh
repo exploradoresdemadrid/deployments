@@ -1,20 +1,8 @@
 #!/usr/bin/env bash
 
-## source environmient variables for later use
-source /home/ubuntu/deployments/secrets/prod-secrets.sh
-
 BACKUPS_DIR=/home/ubuntu/backups
 
 declare -a databases=(decide_production sorting-hat_production salamandra_prod)
-
-## Get new access token with refresh token
-GCLOUD_ACCESS_TOKEN=""
-GCLOUD_ACCESS_TOKEN=$(curl --silent -d \
-client_id=$GCLOUD_CLIENT_ID \
--d client_secret=$GCLOUD_SECRET \
--d refresh_token=$GCLOUD_REFRESH_TOKEN \
--d grant_type=refresh_token \
-https://accounts.google.com/o/oauth2/token | jq '.access_token')
 
 ## Change directory to backups dir
 cd $BACKUPS_DIR
