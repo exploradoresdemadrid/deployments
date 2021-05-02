@@ -52,6 +52,8 @@ curl \
     -F "file=@$backup_name.tar.gz;type=application/gzip" \
     "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
 
+## Configure file backup with rclone
+rclone copy --immutable /home/ubuntu/salamandra/private_files tecnologia_edm:salamandra/private_files
 
 ## Cleanup after backups
 rm -v ./*.tar.gz
