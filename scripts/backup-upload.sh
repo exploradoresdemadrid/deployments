@@ -31,18 +31,11 @@ for database in ${databases[@]}; do
     
     # Compresion of db backup  
     tar -czvf $BACKUPS_DIR/$backup_name.tar.gz $backup_name.sql
-    
-    # Upload of compressed backup to gdrive with token
-    curl \
-    -X POST -L \
-    -H "Authorization: Bearer $GCLOUD_ACCESS_TOKEN" \
-    -F "metadata={name :'$backup_name.tar.gz', parents :['$GCLOUD_FOLDER_ID']};type=application/json;charset=UTF-8" \
-    -F "file=@$backup_name.tar.gz;type=application/gzip" \
-    "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
 done
 
 ## Configure file backup with rclone
 rclone copy --immutable /home/ubuntu/salamandra/private_files tecnologia_edm:salamandra/private_files
+rclone copy --immutable $BACKUPS_DIR tecnologia_edm:databases
 
 ## Cleanup after backups
 rm -v ./*.tar.gz
