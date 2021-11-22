@@ -18,7 +18,8 @@ tar -czvf $BACKUPS_DIR/$backup_name.tar.gz $backup_name.sql
 rm -v ./*.sql
 
 ## Configure file backup with rclone
-# rclone copy --immutable /home/ubuntu/salamandra/private_files tecnologia_edm:salamandra/private_files
+docker cp server-2_wordpress_1:/var/www/html /home/ubuntu/web_files_backup/
+rclone copy --immutable /home/ubuntu/web_files_backup/ tecnologia_edm:web_edm/files
 rclone copy --immutable $BACKUPS_DIR tecnologia_edm:databases
 
 ## Cleanup after backups
