@@ -16,6 +16,7 @@ services:
       - letsencrypt:/etc/letsencrypt
     depends_on:
       - wordpress
+      - wordpress_2
   wordpress:
     image: wordpress:5.7.1
     restart: always
