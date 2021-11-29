@@ -35,7 +35,7 @@ services:
     expose:
       - "80"
     environment:
-      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_HOST: db_2
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER_2}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD_2}
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME_2}
