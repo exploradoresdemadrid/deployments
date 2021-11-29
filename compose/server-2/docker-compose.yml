@@ -52,8 +52,19 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - db:/var/lib/mysql
+  db_2:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${WORDPRESS_DB_NAME_2}
+      MYSQL_USER: ${WORDPRESS_DB_USER_2}
+      MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD_2}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - db_2:/var/lib/mysql
 volumes:
   wordpress:
   wordpress_2:
   db:
+  db_2:
   letsencrypt:
