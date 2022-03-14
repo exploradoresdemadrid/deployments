@@ -14,11 +14,6 @@ backup_name=web_edm-`date +%Y-%m-%d"_"%H_%M_%S`
 docker exec server-2_db_1 /usr/bin/mysqldump -u $WORDPRESS_DB_USER --password=$WORDPRESS_DB_PASSWORD $WORDPRESS_DB_NAME > $backup_name.sql
 tar -czvf $BACKUPS_DIR/$backup_name.tar.gz $backup_name.sql
 
-# Backup of temporary web
-backup_name_2=web_edm_2-`date +%Y-%m-%d"_"%H_%M_%S`
-docker exec server-2_db_2 /usr/bin/mysqldump -u $WORDPRESS_DB_USER_2 --password=$WORDPRESS_DB_PASSWORD_2 $WORDPRESS_DB_NAME_2 > $backup_name_2.sql
-tar -czvf $BACKUPS_DIR/$backup_name_2.tar.gz $backup_name_2.sql
-
 ## Remove raw SQL backups
 rm -v ./*.sql
 
